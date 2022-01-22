@@ -26,9 +26,42 @@ function tail(p) {
 //     return p((x, y) => y);
 // }
 
+// -------------------
+// list
+// -------------------
+
 function list(... args) {
     return args.length === 0 ? null :
         pair(args[0], list(... args.slice(1)))
+}
+
+
+function listIsNull(l) {
+    return l === null;
+}
+
+function listToString(l) {
+    function toStringImpl(l0) {
+        return listIsNull(l0) ? "" : `${head(l0)}, ${toStringImpl(tail(l0))}`
+    }
+    return `[ ${toStringImpl(l)}]`
+}
+
+function listAt(l, index) {
+    return index === 0 ? head(l) : listAt(tail(l), index - 1)
+}
+
+function listLength(l) {
+    return l === null ? 0 : listLength(tail(l)) + 1;
+}
+
+/**
+ * append l2 elements to l1
+ * @param {*} l1 
+ * @param {*} l2 
+ */
+function listAppend(l1, l2) {
+    return listIsNull(l1) ? l2 : pair(head(l1), listAppend(tail(l1), l2))  
 }
 
 function testEnv() {
@@ -37,6 +70,21 @@ function testEnv() {
     // console.log(list());
 }
 
-module.exports = {pair, head, tail};
+function testList() {
+    l = list(1, "abc", 3.5, 999)
+    console.log(`list length is ${listLength(l)}`)
+    console.log(`list at 0 is ${listAt(l, 0)}.`)
+    console.log(`list at 1 is ${listAt(l, 1)}.`)
+    console.log(`list at 2 is ${listAt(l, 2)}.`)
+
+    l2 = list("hello", 0x222)
+    // console.log(listToString(l))
+    console.log(listToString(listAppend(l, l2)))
+}
+
+module.exports = {pair, head, tail, list, listToString, listIsNull, listLength,
+    listAppend, listAt
+};
 
 // testEnv()
+// testList()
