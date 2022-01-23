@@ -64,6 +64,10 @@ function listAppend(l1, l2) {
     return listIsNull(l1) ? l2 : pair(head(l1), listAppend(tail(l1), l2))  
 }
 
+function map(fn, l) {
+    return listIsNull(l) ? null : pair(fn(head(l)), map(fn, tail(l)))
+}
+
 function testEnv() {
     console.log(pair(1, 2));
     console.log(list(1, 2, 3));
@@ -83,8 +87,10 @@ function testList() {
 }
 
 module.exports = {pair, head, tail, list, listToString, listIsNull, listLength,
-    listAppend, listAt
+    listAppend, listAt, map
 };
 
 // testEnv()
 // testList()
+
+// console.log(map(x => x * x, list(1, 2, 3, 4)))
