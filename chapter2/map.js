@@ -38,3 +38,5 @@ function test() {
 
 // test()
 
+module.exports = { forEach, map }
+

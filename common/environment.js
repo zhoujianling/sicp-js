@@ -11,6 +11,12 @@ function tail(p) {
     return p.tail;
 }
 
+function isPair(p) {
+    return p == null ? false :
+        head(p) !== undefined && tail(p) !== undefined;
+}
+
+
 // -------------
 // Exercise 2.4, p.80
 // -------------
@@ -37,7 +43,7 @@ function list(... args) {
 
 
 function listIsNull(l) {
-    return l === null;
+    return l == null;
 }
 
 function listToString(l) {
@@ -86,11 +92,9 @@ function testList() {
     console.log(listToString(listAppend(l, l2)))
 }
 
-module.exports = {pair, head, tail, list, listToString, listIsNull, listLength,
+module.exports = {pair, head, tail, isPair, list, listToString, listIsNull, listLength,
     listAppend, listAt, map
 };
 
 // testEnv()
 // testList()
-
-// console.log(map(x => x * x, list(1, 2, 3, 4)))
