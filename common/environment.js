@@ -35,13 +35,21 @@ function isPair(p) {
 // -------------------
 // list
 // -------------------
-
+/**
+ * make a list
+ * @param  {...any} args items of list
+ * @returns a list made of args
+ */
 function list(... args) {
     return args.length === 0 ? null :
         pair(args[0], list(... args.slice(1)))
 }
 
-
+/**
+ * check if a list is null
+ * @param {*} l a list 
+ * @returns 
+ */
 function listIsNull(l) {
     return l == null;
 }
@@ -70,6 +78,12 @@ function listAppend(l1, l2) {
     return listIsNull(l1) ? l2 : pair(head(l1), listAppend(tail(l1), l2))  
 }
 
+/**
+ * apply mapper function to the list, get a new list
+ * @param {*} fn mapper function 
+ * @param {*} l  a list
+ * @returns new list
+ */
 function map(fn, l) {
     return listIsNull(l) ? null : pair(fn(head(l)), map(fn, tail(l)))
 }
