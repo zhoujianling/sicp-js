@@ -84,8 +84,8 @@ function listAppend(l1, l2) {
  * @param {*} l  a list
  * @returns new list
  */
-function map(fn, l) {
-    return listIsNull(l) ? null : pair(fn(head(l)), map(fn, tail(l)))
+function listMap(fn, l) {
+    return listIsNull(l) ? null : pair(fn(head(l)), listMap(fn, tail(l)))
 }
 
 function testEnv() {
@@ -107,7 +107,7 @@ function testList() {
 }
 
 module.exports = {pair, head, tail, isPair, list, listToString, listIsNull, listLength,
-    listAppend, listAt, map
+    listAppend, listAt, listMap
 };
 
 // testEnv()

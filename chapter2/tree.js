@@ -1,6 +1,6 @@
 let env = require('../common/environment')
-let mapModule = require('../chapter2/map')
 let listModule = require('../chapter2/list')
+let mapModule = require('../chapter2/map')
 
 const pair = env.pair;
 const tail = env.tail;
@@ -12,8 +12,8 @@ const listAppend = env.listAppend;
 const listToString = env.listToString;
 const listReverse = listModule.listReverse;
 const listAt = env.listAt;
-const map = mapModule.map;
-const forEach = mapModule.forEach;
+const listMap = env.listMap;
+const forEach = listModule.listForEach;
 
 function treeCountLeaved(t) {
     return listIsNull(t) ? 0 :
@@ -145,7 +145,7 @@ function testMobile() {
 // Exercise 2.30, p.97
 // -------------
 function treeSquare(t) {
-    return isPair(t) ? map(item => treeSquare(item), t) : t * t
+    return isPair(t) ? listMap(item => treeSquare(item), t) : t * t
 }
 
 function testTreeSquare() {
@@ -161,7 +161,7 @@ function testTreeSquare() {
 // Exercise 2.31, p.97
 // -------------
 function treeMap(fn, t) {
-    return isPair(t) ? map(item => treeMap(fn, item), t) : fn(t)
+    return isPair(t) ? listMap(item => treeMap(fn, item), t) : fn(t)
 }
 
 function testTreeMap() {
@@ -184,7 +184,7 @@ function testTreeMap() {
 function subsets(s) {
     if (s == null) return list(null)
     const rest = subsets(tail(s))
-    return listAppend(rest, map(
+    return listAppend(rest, listMap(
         subset => listIsNull(subset) ? list(head(s)) : listAppend(subset, list(head(s))), rest))
 }
 
