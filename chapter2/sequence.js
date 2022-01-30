@@ -94,3 +94,54 @@ function testHornerEval() {
 
 //#endregion
 
+
+// -------------
+// Exercise 2.36, p.104
+// -------------
+function accumulateN(fn, initial, sequences) {
+    return listIsNull(head(sequences)) ? null :
+        pair(accumulate(fn, initial, listMap(seq => head(seq), sequences)),
+             accumulateN(fn, initial, listMap(seq => tail(seq), sequences)));
+}
+
+function testAccumulateN() {
+    d = list(
+            list(1, 2, 3),
+            list(4, 5, 6),
+            list(7, 8, 9),
+            list(10, 11, 12),
+    )
+    result = accumulateN((x, y) => x + y, 0, d)
+    // expects : list(22, 26, 30)
+    console.log(listToString(result))
+}
+
+// testAccumulateN()
+
+
+// -------------
+// Exercise 2.37, p.105
+// -------------
+
+function dotProduct(v, w) {
+    return accumulate((x, y) => x + y, 0, accumulateN((x, y) => x * y, 1, list(v, w)))
+}
+
+// console.log(dotProduct(list(1, 2, 3), list(-2, 0, 5)))
+
+function matrixTimesVector(m, v) {
+    return listMap(row => dotProduct(row, v), m)
+}
+
+function testMatrixTimesVector() {
+    mat = list(list(1, 2, 3, 4),
+               list(4, 5, 6, 6),
+               list(6, 7, 8, 9),
+    );
+    v = list(1, 2, 3, 0)
+    p = matrixTimesVector(mat, v) 
+    // expects list(14, 32, 44)
+    console.log(listToString(p))
+}
+
+// testMatrixTimesVector()
