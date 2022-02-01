@@ -129,6 +129,17 @@ function dotProduct(v, w) {
 
 // console.log(dotProduct(list(1, 2, 3), list(-2, 0, 5)))
 
+function matrixToString(t) {
+    function toStringImpl(l0) {
+        return listIsNull(l0) ? "" : 
+            `${isPair(head(l0)) ? 
+                matrixToString(head(l0)) : 
+                `${head(l0)}`}, ${toStringImpl(tail(l0))}`
+    }
+    return `[ ${toStringImpl(t)}]`
+
+}
+
 function matrixTimesVector(m, v) {
     return listMap(row => dotProduct(row, v), m)
 }
@@ -145,3 +156,73 @@ function testMatrixTimesVector() {
 }
 
 // testMatrixTimesVector()
+
+function transpose(mat) {
+    return accumulateN((curr, prev) => pair(curr, prev), null, mat);
+}
+
+function testTranspose() {
+    mat = list(list(1, 2, 3, 4),
+               list(4, 5, 6, 6),
+               list(6, 7, 8, 9),
+    );
+    transposedMat = transpose(mat)
+    // console.log(matrixToString(mat))
+    console.log(matrixToString(transposedMat))
+
+}
+
+// testTranspose()
+
+
+function matrixTimesMatrix(m1, m2) {
+    const cols = transpose(m2)
+    // accumulateN(, , cols)
+    return listMap(row => listMap(col => dotProduct(row, col), cols), m1)
+}
+
+function testMatrixTimesMatrix() {
+    mat1 = list(list(1, 2, 4),
+               list(4, 5, 6),
+               list(6, 7, 9),
+    );
+    mat2 = list(list(0, 2, 1),
+               list(1, 0, 1),
+               list(3, 1, 2),
+    );
+    // expects: [ [14, 6, 11], [23, x, x], []]
+    m3 = matrixTimesMatrix(mat1, mat2)
+    console.log(matrixToString(m3))
+}
+
+// testMatrixTimesMatrix()
+
+
+// -------------
+// Exercise 2.39, p.106
+// -------------
+
+const foldRight = accumulate;
+
+function foldLeft(op, initial, sequence) {
+    function iter(result, rest) {
+        return listIsNull(rest) ? result : 
+            iter(op(result, head(result)), tail(rest));
+    }
+    return iter(initial, sequence)
+}
+
+function reverse(sequence) {
+    // todo: ...
+    // return foldRight((x, y) =>, null, sequence)
+}
+
+
+// ============================
+// Nested Mapping
+// ============================
+
+function flatmap(fn, seq) {
+    return accumulate(listAppend, null, listMap(fn, seq))
+}
+
