@@ -1,6 +1,6 @@
 let env = require('../common/environment')
 let listModule = require('../chapter2/list')
-let mapModule = require('../chapter2/map')
+// let mapModule = require('../chapter2/map')
 
 const pair = env.pair;
 const tail = env.tail;
@@ -196,3 +196,4 @@ function testSubsets() {
 
 // testSubsets()
 
+module.exports = { treeToString}

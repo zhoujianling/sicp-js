@@ -31,6 +31,6 @@ function testNumbers() {
         console.log(`${n} is ${isPrime(n) ? "" : "not"} prime`))
 }
 
-testNumbers()
+// testNumbers()
 
-module.exports = { gcd }
+module.exports = { gcd, isPrime }

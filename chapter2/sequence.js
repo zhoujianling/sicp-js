@@ -1,5 +1,7 @@
 let env = require('../common/environment')
 let listModule = require('../chapter2/list')
+let numberModule = require('../chapter1/number')
+let treeModule = require('../chapter2/tree')
 
 const pair = env.pair;
 const tail = env.tail;
@@ -11,6 +13,8 @@ const listAppend = env.listAppend;
 const listToString = env.listToString;
 const listReverse = listModule.listReverse;
 const listAt = env.listAt;
+const isPrime = numberModule.isPrime;
+const treeToString = treeModule.treeToString;
 
 /**
  * 
@@ -226,3 +230,74 @@ function flatmap(fn, seq) {
     return accumulate(listAppend, null, listMap(fn, seq))
 }
 
+function isSumPrime(p) {
+    return isPrime(head(p) + head(tail(p)) )
+}
+
+function testNestedMapping() {
+    l = list(2, 3, 4, 5)
+    console.log(listToString(listMap(x => x * x, l)))
+
+    console.log(listToString(flatmap(x => list(x * x), l)))
+}
+
+// testNestedMapping()
+
+
+// -------------
+// Exercise 2.40, p.108
+// -------------
+
+function enumerateInterval(low, high) {
+    return low > high ? null : pair(low, enumerateInterval(low + 1, high))
+}
+
+function uniquePairs(n) {
+    return flatmap(i => listMap(j => list(i, j), enumerateInterval(1, i)), enumerateInterval(1, n))
+}
+
+function testUnqiuePairs() {
+    console.log(treeToString(uniquePairs(10)))
+}
+
+// testUnqiuePairs()
+
+
+// -------------
+// Exercise 2.41, p.108
+// -------------
+function distinctTriples(n, s) {
+    triples = 
+        listMap(i => 
+            listMap(j => 
+                listMap(k => list(i, j, k), 
+                    enumerateInterval(1, n)), 
+                enumerateInterval(1, n))
+        , enumerateInterval(1, n))
+    // console.log(treeToString(triples))
+
+    flatTriples = flatmap(x => x, flatmap(x => x, triples))
+    // console.log(treeToString(flatTriples))
+    return filter(ijk => listAt(ijk, 0) + listAt(ijk, 1) + listAt(ijk, 2) === s, flatTriples)
+}
+
+function testDistinctTriples() {
+    // distinctTriples(2, 0)
+    console.log(treeToString(distinctTriples(15, 30)))
+}
+
+// testDistinctTriples()
+
+
+// -------------
+// Exercise 2.42, p.108
+// -------------
+// Eight Queens Puzzle
+
+// function queens(boardSize) {
+//     function queensCols(k) {
+//         return k === 0 ? list(emptyBoard) :
+//             filter()
+//     }
+//     return queensCols(boardSize)
+// }
