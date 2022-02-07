@@ -22,6 +22,7 @@ function treeCountLeaved(t) {
 }
 
 function treeToString(t) {
+    // todo: remove it
     function toStringImpl(l0) {
         return listIsNull(l0) ? "" : 
             `${isPair(head(l0)) ? 

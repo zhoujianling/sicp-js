@@ -54,13 +54,6 @@ function listIsNull(l) {
     return l == null;
 }
 
-function listToString(l) {
-    function toStringImpl(l0) {
-        return listIsNull(l0) ? "" : `${head(l0)}, ${toStringImpl(tail(l0))}`
-    }
-    return `[ ${toStringImpl(l)}]`
-}
-
 function listAt(l, index) {
     return index === 0 ? head(l) : listAt(tail(l), index - 1)
 }
@@ -94,6 +87,8 @@ function testEnv() {
     // console.log(list());
 }
 
+// testEnv()
+
 function testList() {
     l = list(1, "abc", 3.5, 999)
     console.log(`list length is ${listLength(l)}`)
@@ -106,9 +101,44 @@ function testList() {
     console.log(listToString(listAppend(l, l2)))
 }
 
-module.exports = {pair, head, tail, isPair, list, listToString, listIsNull, listLength,
-    listAppend, listAt, listMap
-};
-
-// testEnv()
 // testList()
+
+// ==============================
+
+function isNumber(e) {
+    return typeof e === "number" 
+}
+
+function isString(e) {
+    return typeof e === "string"
+}
+
+function testTypeCheck() {
+    console.log("0 is number: " + isNumber(0))
+    console.log("abc is number: " + isNumber("abc"))
+
+    console.log("3 is string: " + isString(3))
+    console.log("abc is string: " + isString("abc"))
+}
+
+// testTypeCheck()
+
+function listToString(l) {
+    // function toStringImpl(l0) {
+    //     return listIsNull(l0) ? "" : `${head(l0)}, ${toStringImpl(tail(l0))}`
+    // }
+    function listToStringImpl(l0) {
+        return listIsNull(l0) ? "" : 
+            `${isPair(head(l0)) ? 
+                listToString(head(l0)) : 
+                `${head(l0)}`}, ${listToStringImpl(tail(l0))}`
+    }
+    return isNumber(l) || isString(l) ? `${l}` :
+     `[ ${listToStringImpl(l)}]`
+}
+
+
+module.exports = {pair, head, tail, isPair, list, listToString, listIsNull, listLength,
+    listAppend, listAt, listMap,
+    isNumber, isString
+};
