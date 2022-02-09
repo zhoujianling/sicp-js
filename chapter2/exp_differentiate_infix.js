@@ -177,3 +177,9 @@ function testDeriv() {
 }
 
 testDeriv()
+
+
+// -------------
+// Exercise 2.58 (b), p.131
+// -------------
+// todo ...

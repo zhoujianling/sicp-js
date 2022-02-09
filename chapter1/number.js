@@ -35,4 +35,4 @@ function testNumbers() {
 
 // testNumbers()
 
-module.exports = { gcd, isPrime }
+module.exports = { gcd, isPrime, square }
