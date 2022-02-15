@@ -28,6 +28,10 @@ function isPrime(n) {
     return n === smallestDivisor(n);
 }
 
+function numberEqual(exp, num) {
+    return isNumber(exp) && exp === num
+}
+
 function testNumbers() {
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].forEach(n => 
         console.log(`${n} is ${isPrime(n) ? "" : "not"} prime`))
@@ -35,4 +39,4 @@ function testNumbers() {
 
 // testNumbers()
 
-module.exports = { gcd, isPrime, square }
+module.exports = { gcd, isPrime, square, numberEqual }
