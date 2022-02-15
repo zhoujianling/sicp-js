@@ -137,8 +137,34 @@ function listToString(l) {
      `[ ${listToStringImpl(l)}]`
 }
 
+function error(errorText) {
+    console.log(errorText)
+    return null
+}
+
+function put(op, type, func) {
+    // todo:...
+}
+
+function get(op, type) {
+
+}
+
+function attachTag(tag, contents) {
+    return pair(tag, contents)
+}
+
+function typeTag(datum) {
+    return isPair(datum) ? head(datum) : error("bad tag datum")
+}
+
+function contents(datum) {
+    return isPair(datum) ? tail(datum) : error("bad tag contents")
+}
 
 module.exports = {pair, head, tail, isPair, list, listToString, listIsNull, listLength,
-    listAppend, listAt, listMap,
-    isNumber, isString
+    listAppend, listAt, listMap, 
+    attachTag, typeTag, contents,
+    isNumber, isString, error,
+    put, get
 };
