@@ -32,4 +32,10 @@ function applyGeneric(op, args) {
     
 }
 
+function testApplyGeneric() {
+    function add(x, y)
+}
+
+testApplyGeneric()
+
 module.exports = {applyGeneric, typeTag, contents }

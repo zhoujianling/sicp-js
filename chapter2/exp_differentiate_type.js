@@ -141,6 +141,9 @@ function deriv(exp, variable) {
         error("ERROR");
 }
 
+// -------------
+// Exercise 2.73 p.160
+// -------------
 function installSumDerivativePackage() {
 
     function derivImpl(exp, variable) {

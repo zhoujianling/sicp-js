@@ -142,29 +142,44 @@ function error(errorText) {
     return null
 }
 
+globalGenericDataTable = {}
+
+/**
+ * data-oriented generic operation, put func into table
+ * @param {string} op 
+ * @param {*} type  list of string
+ * @param {*} func 
+ */
 function put(op, type, func) {
-    // todo:...
+    const typeName = listAt(type, 0)
+    if (! (typeName in globalGenericDataTable)) globalGenericDataTable[typeName] = {}
+    globalGenericDataTable[typeName][op] = func
 }
 
 function get(op, type) {
-
+    const typeName = listAt(type, 0)
+    // if (! (typeName in globalGenericDataTable)) globalGenericDataTable[typeName] = {}
+    return globalGenericDataTable[typeName][op]
 }
 
-function attachTag(tag, contents) {
-    return pair(tag, contents)
+function testPutGet() {
+    put("foo", list("A"), () => console.log("I am A, I will foo~"))
+    put("foo", list("B"), () => console.log("I am B, I will foo~"))
+    put("go", list("A"), () => console.log("I am A, I will go~"))
+    put("go", list("B"), () => console.log("I am B, I will go~"))
+
+    // -------------------
+    get("go", list("A"))()
+    get("go", list("B"))()
+    get("foo", list("A"))()
+    get("foo", list("B"))()
 }
 
-function typeTag(datum) {
-    return isPair(datum) ? head(datum) : error("bad tag datum")
-}
-
-function contents(datum) {
-    return isPair(datum) ? tail(datum) : error("bad tag contents")
-}
+// testPutGet()
 
 module.exports = {pair, head, tail, isPair, list, listToString, listIsNull, listLength,
     listAppend, listAt, listMap, 
-    attachTag, typeTag, contents,
+    // attachTag, typeTag, contents,
     isNumber, isString, error,
     put, get
 };
