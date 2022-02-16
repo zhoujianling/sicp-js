@@ -81,10 +81,16 @@ function listMap(fn, l) {
     return listIsNull(l) ? null : pair(fn(head(l)), listMap(fn, tail(l)))
 }
 
+function listToJavascriptArray(l) {
+    return listIsNull(l) ? [] :
+        [head(l)].concat(listToJavascriptArray(tail(l)))
+}
+
 function testEnv() {
     console.log(pair(1, 2));
-    console.log(list(1, 2, 3));
+    // console.log(list(1, 2, 3));
     // console.log(list());
+    console.log(listToJavascriptArray(list(1, 2, 4)))
 }
 
 // testEnv()
@@ -156,9 +162,15 @@ function put(op, type, func) {
     globalGenericDataTable[typeName][op] = func
 }
 
+/**
+ * get method implementation of generic operation
+ * @param {string} op operation name
+ * @param {*} type a list of types name
+ * @returns 
+ */
 function get(op, type) {
     const typeName = listAt(type, 0)
-    // if (! (typeName in globalGenericDataTable)) globalGenericDataTable[typeName] = {}
+    // console.log(typeName)
     return globalGenericDataTable[typeName][op]
 }
 
@@ -178,7 +190,7 @@ function testPutGet() {
 // testPutGet()
 
 module.exports = {pair, head, tail, isPair, list, listToString, listIsNull, listLength,
-    listAppend, listAt, listMap, 
+    listAppend, listAt, listMap, listToJavascriptArray,
     // attachTag, typeTag, contents,
     isNumber, isString, error,
     put, get

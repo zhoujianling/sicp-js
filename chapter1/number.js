@@ -1,4 +1,4 @@
-const { isPair } = require("../common/environment");
+const { isPair, isNumber } = require("../common/environment");
 
 
 // ====================================

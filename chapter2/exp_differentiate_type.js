@@ -1,7 +1,8 @@
 
-const { listToString, listAppend, listAt, isNumber, isString, isPair, list, head, tail, pair, get} 
+const { listToString, listAppend, listAt, isNumber, isString, 
+    isPair, list, head, tail, pair, get, put } 
     = require("../common/environment");
-const { numberEqual } = require("../chapter1/number")
+const { numberEqual  } = require("../chapter1/number")
 
 const { treeToString } = require("./tree")
 
@@ -137,8 +138,8 @@ function operands(exp) {
 function deriv(exp, variable) {
     return isNumber(exp) ? 0 :
         isVariable(exp) ? isSameVariable(exp, variable) ? 1 : 0 :
-        get("deriv", operator(exp))(operands(exp), variable)
-        error("ERROR");
+        get("deriv", list(operator(exp)))((exp), variable)
+        // error("ERROR");
 }
 
 // -------------
@@ -221,8 +222,7 @@ function testDeriv() {
     console.log(`the derivative of ${listToString(exp)} is ${listToString(res)}`)
 }
 
-// todo: test ...
-testDeriv()
+// testDeriv()
 
 
 function testDerivExp() {

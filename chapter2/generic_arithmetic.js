@@ -4,4 +4,10 @@ const { listToString, listAppend, listAt, isNumber, isString, isPair, list, head
 const { applyGeneric } = require("../common/generic_types")
 const { square } = require("../chapter1/number")
 
+// ===============================
+// rational number arithmetic
+// ===============================
 
+function add(x, y) {
+
+}

@@ -1,4 +1,5 @@
-const {put, get, list, listMap, listAt} = require("./environment")
+const {put, get, pair, head, tail, isPair, 
+    list, listMap, listAt, listToJavascriptArray} = require("./environment")
 // const {map } = require("../chapter2/list")
 
 function attachTag(tag, contents) {
@@ -14,28 +15,36 @@ function contents(datum) {
 }
 
 function applyInUnderlyingJavascript(func, args) {
-    const self = contents(listAt(args, 0))
-    console.log("todo ................")
+    argsArray = listToJavascriptArray(args)
+    return func(...argsArray)
 }
 
 /**
  * call a method of generic type
  * @param {string} op method name 
- * @param {*} args list of args, e.g. list(complexNumber), first element is  
+ * @param {*} args list of args, e.g. list(complexNumber), all elements in the list has type tag 
  * @returns result of function call
  */
 function applyGeneric(op, args) {
-    const tag = typeTag(listAt(args, 0))
-    const func = get(op, tag)
+    const tags = listMap(typeTag, args)
+    const func = get(op, tags)
     return func === undefined ? error("Fail to find method in table") :
-        applyInUnderlyingJavascript(func, args)
+        applyInUnderlyingJavascript(func, listMap(contents, args))
     
 }
 
 function testApplyGeneric() {
-    function add(x, y)
+    function add(x, y) {
+        // console.log("?")
+        return x + y
+    }
+    put("add", list("testTypeName"), add);
+    x1 = attachTag("testTypeName", 1)
+    y1 = attachTag("testTypeName", 2)
+    let res = applyGeneric("add", list(x1, y1));
+    console.log("x1 add y1 is " + res);
 }
 
-testApplyGeneric()
+// testApplyGeneric()
 
 module.exports = {applyGeneric, typeTag, contents }
