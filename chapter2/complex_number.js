@@ -109,34 +109,6 @@ function angle(z) {
     return applyGeneric("angle", list(z))
 }
 
-function makeComplexFromRealImagine(r, i) {
-    return get("makeComplexFromRealImagine", "rectangular")(r, i)
-}
-
-function makeComplexFromMagAngle(m, a) {
-    return get("makeComplexFromMagAngle", "polar")(m, a)
-}
-
-function complexAdd(z1, z2) {
-    return makeComplexFromRealImagine(realPart(z1) + realPart(z2),
-        imaginePart(z1) + imaginePart(z2));
-}
-
-function complexSub(z1, z2) {
-    return makeComplexFromRealImagine(realPart(z1) - realPart(z2),
-        imaginePart(z1) - imaginePart(z2));
-}
-
-function mul(z1, z2) {
-    return makeComplexFromMagAngle(magnitude(z1) * magnitude(z2),
-        angle(z1) + angle(z2));
-}
-
-function complexDiv(z1, z2) {
-    return makeComplexFromMagAngle(magnitude(z1) / magnitude(z2),
-        angle(z1) - angle(z2));
-}
-
 
 installRectangularPackage()
 installPolarPackage()
@@ -146,3 +118,5 @@ function testComplex() {
 }
 
 // testComplex()
+
+module.exports = {realPart, imaginePart, magnitude, angle}

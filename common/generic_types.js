@@ -47,4 +47,4 @@ function testApplyGeneric() {
 
 // testApplyGeneric()
 
-module.exports = {applyGeneric, typeTag, contents }
+module.exports = {applyGeneric, typeTag, contents, attachTag }
