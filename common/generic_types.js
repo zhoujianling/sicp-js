@@ -1,17 +1,25 @@
 const {put, get, pair, head, tail, isPair, 
-    list, listMap, listAt, listToJavascriptArray} = require("./environment")
+    list, listMap, listAt, listToJavascriptArray, isNumber} = require("./environment")
 // const {map } = require("../chapter2/list")
 
+// -------------
+// Exercise 2.78, p.168
+// -------------
 function attachTag(tag, contents) {
-    return pair(tag, contents)
+    return isNumber(contents) ? contents :
+         pair(tag, contents)
 }
 
 function typeTag(datum) {
-    return isPair(datum) ? head(datum) : error("bad tag datum")
+    return isPair(datum) ? head(datum) : 
+        isNumber(datum) ? "javascriptNumber" :
+        error("bad tag datum")
 }
 
 function contents(datum) {
-    return isPair(datum) ? tail(datum) : error("bad tag contents")
+    return isPair(datum) ? tail(datum) : 
+        isNumber(datum) ? datum :
+        error("bad tag contents")
 }
 
 function applyInUnderlyingJavascript(func, args) {

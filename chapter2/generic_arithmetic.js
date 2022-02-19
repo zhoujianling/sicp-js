@@ -103,15 +103,38 @@ function installComplexPackage() {
             angle(z1) - angle(z2));
     }
 
+    function isEqual(z1, z2) {
+        return realPart(z1) == realPart(z2) && imaginePart(z1) == imaginePart(z2);
+    }
+
     // interfaces 
     function tag(x) { return attachTag("complex", z); }
     put("add", list("complex", "complex"), (z1, z2) => tag(complexAdd(z1, z2)));
     put("sub", list("complex", "complex"), (z1, z2) => tag(complexSub(z1, z2)));
+    put("mul", list("complex", "complex"), (z1, z2) => tag(complexMul(z1, z2)));
+    put("div", list("complex", "complex"), (z1, z2) => tag(complexDiv(z1, z2)));
+    put("isEqual", list("complex", "complex"), (z1, z2) => tag(isEqual(z1, z2)));
+    put("makeComplexFromRealImagine", "complex", (x, y) => tag(makeComplexFromRealImagine(x, y)));
+    put("makeComplexFromMagAngle", "complex", (r, a) => tag(makeComplexFromMagAngle(r, a)));
+}
+
+function makeComplexFromRealImagine(x, y) {
+    return get("makeComplexFromRealImagine", "complex")(x, y)
+}
+
+function makeComplexFromMagAngle(r, a) {
+    return get("makeComplexFromMagAngle", "complex")(r, a)
 }
 
 // ===============================
 // generic operations
 // ===============================
+/**
+ * generic add
+ * @param {*} x number with type (number / rational / complex) 
+ * @param {*} y 
+ * @returns 
+ */
 function add(x, y) {
     return applyGeneric("add", list(x, y))
 }
@@ -126,4 +149,11 @@ function mul(x, y) {
 
 function div(x, y) {
     return applyGeneric("div", list(x, y))
+}
+
+// -------------
+// Exercise 2.79, p.169
+// -------------
+function isEqual(x, y) {
+    return applyGeneric("isEqual", list(x, y))
 }
