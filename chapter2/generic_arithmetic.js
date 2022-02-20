@@ -157,3 +157,11 @@ function div(x, y) {
 function isEqual(x, y) {
     return applyGeneric("isEqual", list(x, y))
 }
+
+// -------------
+// Exercise 2.83, p.175
+// -------------
+function raise(n) {
+    // todo ...
+    // return applyGeneric("raise", list(n))
+}
