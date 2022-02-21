@@ -95,3 +95,24 @@ function testAccount() {
 }
 
 // testAccount()
+
+// -------------
+// Exercise 3.4, p.200
+// -------------
+function makeRand() {
+    let x = randInit();
+    return (cmd) => {
+        if (cmd === "reset") {
+            x =  randInit();
+        }
+        else if (cmd === "generate") {
+            x = randUpdate(x);
+        }
+        return x;
+    };
+}
+
+function testRand() {
+    const rand = makeRand();
+
+}
