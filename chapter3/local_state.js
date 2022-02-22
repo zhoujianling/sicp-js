@@ -116,3 +116,27 @@ function testRand() {
     const rand = makeRand();
 
 }
+
+// -------------
+// Exercise 3.7, p.205
+// -------------
+function makeJoint(anotherAccount, password, newPassword) {
+    function dispatch(inputPassword, m) {
+        if (newPassword !== inputPassword) {
+            return () => "Incorrect password";
+        } 
+        return anotherAccount(password, m);
+    }
+    return dispatch;
+}
+
+function testJoint() {
+    const acc = makeAccount(100, "12345");
+    console.log(acc("12345", "deposit")(40));
+
+    const paulAcc = makeJoint(acc, "12345", "abc")
+    console.log(paulAcc("abc", "withdraw")(30));
+}
+
+// testJoint()
+
