@@ -11,6 +11,15 @@ function tail(p) {
     return p.tail;
 }
 
+// mutators
+function setHead(p, h) {
+    p.head = h;
+}
+
+function setTail(p, t) {
+    p.tail = t;
+}
+
 function isPair(p) {
     return p == null ? false :
         head(p) !== undefined && tail(p) !== undefined;
@@ -189,7 +198,8 @@ function testPutGet() {
 
 // testPutGet()
 
-module.exports = {pair, head, tail, isPair, list, listToString, listIsNull, listLength,
+module.exports = {pair, head, tail, setHead, setTail, isPair, 
+    list, listToString, listIsNull, listLength,
     listAppend, listAt, listMap, listToJavascriptArray,
     // attachTag, typeTag, contents,
     isNumber, isString, error,
