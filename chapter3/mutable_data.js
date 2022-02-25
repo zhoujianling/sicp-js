@@ -59,3 +59,48 @@ function testIncorrectCountPairs() {
 }
 
 // testIncorrectCountPairs()
+
+
+// -------------
+// Exercise 3.17, p.229
+// -------------
+/**
+ * count the number of pairs in a list
+ * @param {*} x a list 
+ */
+function countPairs(x) {
+    let auxData = new Set()
+    function countPairsImpl(x) {
+        if (auxData.has(x)) return 0;
+        auxData.add(x);
+        return isPair(x) ? 1 + countPairsImpl(head(x)) + countPairsImpl(tail(x)) : 0 
+    }
+    return countPairsImpl(x)
+}
+
+function testCountPairs() {
+    // 3
+    const l = list(1, 2, 3)
+    console.log("count pairs: " + countPairs(l))
+
+    // 4
+    let l1 = list(1, 2, 3)
+    let lp = lastPair(l1)
+    setHead(l1, lp)
+    console.log("count pairs: " + countPairs(l1))
+
+    // 7
+    let l2 = list(1, 2, 3)
+    let mp = tail(l2);  // mid pair
+    let lpp = lastPair(l2)
+    setHead(mp, lpp);
+    setHead(l2, mp)
+    console.log("count pairs: " + countPairs(l2))
+
+    // unfinity
+    let l3 = list(1, 2, 3)
+    setHead(l3, l3)
+    // console.log("count pairs: " + countPairs0(l3))
+}
+
+// testCountPairs()
