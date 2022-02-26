@@ -104,3 +104,64 @@ function testCountPairs() {
 }
 
 // testCountPairs()
+
+
+// -------------
+// Exercise 3.18, p.229
+// -------------
+function checkCycle(l) {
+    let vals = new Set();
+    function checkImpl(l) {
+        if (l === null) return false;
+        // let h = head(l);
+        if (vals.has(l)) {
+            return true;
+        }
+        vals.add(l)
+        return checkImpl(tail(l));
+    }
+
+    return checkImpl(l)
+}
+
+function testCheckCycle() {
+    let l = list(1, 2, 3, 4);
+    console.log(checkCycle(l));
+
+    let l2 = list(1, 2, 3, 4);
+    let lp = lastPair(l2);
+    setTail(lp, l2)
+    console.log(checkCycle(l2));
+}
+
+// testCheckCycle()
+
+
+// -------------
+// Exercise 3.19, p.229
+// -------------
+function checkCycle2(l) {
+    let slow = l
+    let fast = l
+    while (slow !== null && fast !== null) {
+        slow = tail(slow)
+        fast = tail(fast)
+        if (fast !== null) fast = tail(fast)
+        if (slow === fast) return true;
+    }
+
+    return false
+}
+
+function testCheckCycle2() {
+    let l = list(1, 2, 3, 4);
+    console.log(checkCycle2(l));
+
+    let l2 = list(1, 2, 3, 4);
+    let lp = lastPair(l2);
+    setTail(lp, l2)
+    console.log(checkCycle2(l2));
+}
+
+// testCheckCycle2()
+
