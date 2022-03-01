@@ -1,5 +1,15 @@
+const { listToString, listAppend, listMember, listAt, isNumber, isString, isPair, list, head, tail, pair, 
+    listIsNull, setTail, setHead, error } 
+    = require("../common/environment");
 
 
+/**
+ * 
+ * @param {*} exception 
+ * @param {*} fun  
+ * @param {*} list list of constraints
+ * @returns 
+ */
 function forEachExcept(exception, fun, list) {
     function loop(items) {
         if ((items) === null) {
@@ -15,13 +25,21 @@ function forEachExcept(exception, fun, list) {
     return loop(list);
 }
 
+function informAboutValue(constraint) { 
+    return constraint("I have a value.");
+}
+
+function informAboutNoValue(constraint) { 
+    return constraint("I lost my value.");
+}
+
 function makeConnector() {
     let value = false; 
     let informant = false; 
     let constraints = null; 
 
     function setMyValue(newval, setter) {
-        if (!hasValue(me)) {
+        if (!hasValue(self)) {
             value = newval; 
             informant = setter; 
             return forEachExcept(setter, informAboutValue, constraints);
@@ -40,22 +58,22 @@ function makeConnector() {
         }
     }
     function connect(constraint) {
-        if (null === (member(constraint, constraints))) {
+        if (null === (listMember(constraint, constraints))) {
             constraints = pair(constraint, constraints);
         } else { 
 
         } 
-        if (hasValue(me)) {
+        if (hasValue(self)) {
             informAboutValue(constraint);
         } else { 
 
         } 
         // return "done";
     }
-    function dispatch(request) {
+    function self(request) {
         if (request === "hasValue") {
             return informant !== false;
-        } else if (request === "value") {
+        } else if (request === "getValue") {
             return value;
         } else if (request === "setValue") {
             return setMyValue;
@@ -64,10 +82,10 @@ function makeConnector() {
         } else if (request === "connect") {
             return connect;
         } else { 
-            error(request, "unknown operation -- connector"); 
+            error(request, "unknown operation -- connector, " + request); 
         }
     } 
-    return dispatch;
+    return self;
 }
 
 function hasValue(connector) {
@@ -163,6 +181,40 @@ function multiplier(m1, m2, product) {
     connect(m1, me); 
     connect(m2, me); 
     connect(product, me); 
+    return me;
+}
+
+// -------------
+// Exercise 3.33, p.261
+// -------------
+function averager(m1, m2, average) {
+    function processNewValue() {
+        if (hasValue(m1) && hasValue(m2)) {
+            setValue(average, (getValue(m1) + getValue(m2)) * 0.5, me);
+        } else if (hasValue(average) && hasValue(m1)) {
+            setValue(m2, getValue(average) * 2 - getValue(m1), me);
+        } else if (hasValue(average) && hasValue(m2)) {
+            setValue(m1, getValue(average) * 2 - getValue(m2), me);
+        } else { }
+    }
+    function processForgetValue() {
+        forgetValue(product, me); 
+        forgetValue(m1, me); 
+        forgetValue(m2, me); 
+        processNewValue();
+    }
+    function me(request) {
+        if (request === "I have a value.") {
+            processNewValue();
+        } else if (request === "I lost my value.") {
+            processForgetValue();
+        } else { 
+            error(request, "unknown request -- multiplier"); 
+        }
+    }
+    connect(m1, me); 
+    connect(m2, me); 
+    connect(average, me); 
     return me;
 }
 

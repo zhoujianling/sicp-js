@@ -81,6 +81,18 @@ function listAppend(l1, l2) {
 }
 
 /**
+ * test if item is a member of the list
+ * if is member, return the sublist, otherwise return null
+ * @param {*} item 
+ * @param {*} l 
+ */
+function listMember(item, l) {
+    return listIsNull(l) ? null :
+        item === head(l) ? l :
+        listMember(item, tail(l))
+}
+
+/**
  * apply mapper function to the list, get a new list
  * @param {*} fn mapper function 
  * @param {*} l  a list
@@ -152,7 +164,7 @@ function listToString(l) {
      `[ ${listToStringImpl(l)}]`
 }
 
-function error(errorText) {
+function error(obj, errorText) {
     console.log(errorText)
     return null
 }
@@ -199,7 +211,7 @@ function testPutGet() {
 // testPutGet()
 
 module.exports = {pair, head, tail, setHead, setTail, isPair, 
-    list, listToString, listIsNull, listLength,
+    list, listToString, listIsNull, listLength, listMember,
     listAppend, listAt, listMap, listToJavascriptArray,
     // attachTag, typeTag, contents,
     isNumber, isString, error,
