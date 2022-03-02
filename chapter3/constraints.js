@@ -184,6 +184,34 @@ function multiplier(m1, m2, product) {
     return me;
 }
 
+
+function celsiusFahrenheitConverter(c, f) { 
+    const u = makeConnector(); 
+    const v = makeConnector(); 
+    const w = makeConnector(); 
+    const x = makeConnector(); 
+    const y = makeConnector(); 
+    multiplier(c, w, u); 
+    multiplier(v, x, u); 
+    adder(v, y, f); 
+    constant(9, w); 
+    constant(5, x); 
+    constant(32, y); 
+    // return "ok";
+}
+
+function testConstraints() {
+    const C = makeConnector(); 
+    const F = makeConnector();
+    celsiusFahrenheitConverter(C, F);
+
+    setValue(C, 25, "user");
+    const fval = getValue(F); // expects 77
+    console.log(fval);
+}
+
+// testConstraints();
+
 // -------------
 // Exercise 3.33, p.261
 // -------------
@@ -218,29 +246,80 @@ function averager(m1, m2, average) {
     return me;
 }
 
-function celsiusFahrenheitConverter(c, f) { 
+function testAverager() {
+    // (a + (b + c) / 2) = d * 2
+    const a = makeConnector(); 
+    const b = makeConnector(); 
+    const c = makeConnector(); 
+    const d = makeConnector(); 
     const u = makeConnector(); 
-    const v = makeConnector(); 
+    averager(b, c, u); 
+    averager(a, u, d); 
+    constant(2, b); 
+    constant(10, c); 
+    // constant(18, a); 
+
+    setValue(a, 18, "user");
+    const dval = getValue(d); // expects 12
+    console.log(dval);
+}
+
+// testAverager()
+
+// -------------
+// Exercise 3.34, p.261
+// -------------
+// a * a = b
+function squarer(a, b) {
+    function processNewValue() {
+        if (hasValue(b)) {
+            if (getValue(b) < 0) {
+                error(getValue(b), "square less then 0");
+            } else {
+                setValue(a, Math.sqrt(getValue(b)), me);
+            }
+        } else if (hasValue(a)) {
+            setValue(b, getValue(a) * getValue(a), me);
+        } else {}
+    }
+    function processForgetValue() {
+        forgetValue(a, me); 
+        forgetValue(b, me); 
+        processNewValue();
+    }
+    function me(request) {
+        if (request === "I have a value.") {
+            processNewValue();
+        } else if (request === "I lost my value.") {
+            processForgetValue();
+        } else { 
+            error(request, "unknown request -- multiplier"); 
+        }
+    }
+    connect(a, me); 
+    connect(b, me); 
+    return me;
+}
+
+function testSquarer() {
+    // (a * a + (b + c) / 2) = d 
+    const a = makeConnector(); 
+    const b = makeConnector(); 
+    const c = makeConnector(); 
+    const d = makeConnector(); 
+    const u = makeConnector(); 
     const w = makeConnector(); 
-    const x = makeConnector(); 
-    const y = makeConnector(); 
-    multiplier(c, w, u); 
-    multiplier(v, x, u); 
-    adder(v, y, f); 
-    constant(9, w); 
-    constant(5, x); 
-    constant(32, y); 
-    // return "ok";
+    averager(b, c, u); 
+    squarer(a, w); 
+    adder(w, u, d); 
+    constant(2, b); 
+    constant(10, c); 
+    // constant(18, a); 
+
+    setValue(a, 3, "user");
+    const dval = getValue(d); // expects 9
+    console.log(dval);
+
 }
 
-function testConstraints() {
-    const C = makeConnector(); 
-    const F = makeConnector();
-    celsiusFahrenheitConverter(C, F);
-
-    setValue(C, 25, "user");
-    const fval = getValue(F); // expects 77
-    console.log(fval);
-}
-
-testConstraints();
+// testSquarer()
