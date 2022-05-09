@@ -1,7 +1,7 @@
 const { listToString, listAppend, listMember, listAt, isNumber, isString, isPair, list, head, tail, pair, 
     listIsNull, setTail, setHead, error } 
     = require("../common/environment");
-
+const {isPrime} = require("../chapter1/number");
 
 /**
  * a stream (represents [val1, val2, val3]) will be a tuple like 
@@ -33,3 +33,42 @@ function streamForEach(func, stream) {
     func(head(stream));
     return streamForEach(func, streamTail(stream));
 }
+
+function displayStream(stream) {
+    let displayContent = '['
+    streamForEach((v => displayContent += `${v}, `), stream)
+    displayContent += ']';
+    console.log(displayContent)
+}
+
+function testDisplayStream() {
+    let s = pair(1, ()=>pair(2, ()=> pair(3, ()=> null)))
+    displayStream(s)
+}
+
+// testDisplayStream()
+
+function streamFilter(predicate, stream) {
+    console.log("filter")
+    return stream === null ? null :
+        predicate(head(stream)) ? pair(head(stream), ()=> streamFilter(predicate, streamTail(stream))) :
+        streamFilter(predicate, streamTail(stream))
+
+}
+// function filter(predicate, sequence) {
+// }
+
+function streamEnumerateInterval(low, high) {
+    console.log("enumerate")
+    return low > high ? null :
+        pair(low, () => streamEnumerateInterval(low + 1, high))
+}
+
+function testPrime() {
+    // displayStream(streamEnumerateInterval(1, 10))
+    displayStream(streamFilter(isPrime, streamEnumerateInterval(1, 10)))
+    // displayStream((streamFilter(isPrime, streamEnumerateInterval(10001, 1000000))))
+    // head(streamTail(streamFilter(isPrime, streamEnumerateInterval(10001, 1000000))))
+}
+
+testPrime()
